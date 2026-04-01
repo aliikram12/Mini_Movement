@@ -32,7 +32,8 @@ app.use('/api/orders', require('./routes/orders'));
 app.use('/api/custom-orders', require('./routes/customOrders'));
 app.use('/api/payments', require('./routes/payments'));
 
-app.get('/api/health', (_, res) => res.json({ status: 'OK', message: 'Mini Movements API ✨' }));
+app.get('/api', (_, res) => res.json({ status: 'OK', message: 'Mini Movements API Root 🧸✨' }));
+app.get('/api/health', (_, res) => res.json({ status: 'OK', message: 'Mini Movements API Health ✨' }));
 
 app.get('/', (_, res) => res.json({ status: 'OK', message: 'Welcome to Mini Movements Backend API 🧸✨' }));
 
