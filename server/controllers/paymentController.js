@@ -16,9 +16,12 @@ exports.createCheckoutSession = async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${process.env.CLIENT_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.CLIENT_URL}/payment-cancel`,
-      metadata: { userId: req.user._id.toString(), shippingAddress: JSON.stringify(shippingAddress) }
+      success_url: `${process.env.CLIENT_URL || 'https://mini-movements.vercel.app'}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.CLIENT_URL || 'https://mini-movements.vercel.app'}/payment-cancel`,
+      metadata: { 
+        userId: req.user?._id?.toString() || 'anonymous', 
+        shippingAddress: typeof shippingAddress === 'string' ? shippingAddress : JSON.stringify(shippingAddress || {})
+      }
     });
 
     res.json({ sessionId: session.id, url: session.url });

@@ -25,10 +25,26 @@ exports.createCustomOrder = async (req, res) => {
       }
     }
 
+    let parsedAddress = {};
+    if (shippingAddress) {
+      try {
+        parsedAddress = typeof shippingAddress === 'string' ? JSON.parse(shippingAddress) : shippingAddress;
+      } catch (e) {
+        console.warn("⚠️ Failed to parse shipping address, using fallback:", e.message);
+        parsedAddress = {};
+      }
+    }
+
     const order = await CustomOrder.create({
-      user: req.user._id, teddyProduct, babyName, customMessage,
-      outfitImages, selectedColor, selectedSize,
-      price: Number(price), shippingAddress: JSON.parse(shippingAddress || '{}')
+      user: req.user._id, 
+      teddyProduct, 
+      babyName, 
+      customMessage,
+      outfitImages, 
+      selectedColor, 
+      selectedSize,
+      price: Number(price), 
+      shippingAddress: parsedAddress
     });
 
     res.status(201).json(order);

@@ -22,7 +22,7 @@ exports.getProducts = async (req, res) => {
     if (sort === 'price-desc') sortOpt = { price: -1 };
     if (sort === 'rating') sortOpt = { rating: -1 };
 
-    const products = await Product.find(query).sort(sortOpt);
+    const products = await Product.find(query).sort(sortOpt).lean();
     res.json(products);
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
@@ -31,7 +31,7 @@ exports.getProducts = async (req, res) => {
 
 exports.getProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).lean();
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.json(product);
   } catch (err) {

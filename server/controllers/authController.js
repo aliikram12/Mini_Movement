@@ -85,9 +85,23 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
   try {
-    if (req.user) { req.user.refreshToken = ''; await req.user.save(); }
-    res.clearCookie('accessToken').clearCookie('refreshToken');
-    res.json({ message: 'Logged out' });
+    const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+    
+    if (req.user) {
+      req.user.refreshToken = '';
+      await req.user.save();
+    }
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax'
+    };
+
+    res.clearCookie('accessToken', cookieOptions);
+    res.clearCookie('refreshToken', cookieOptions);
+    
+    res.json({ message: 'Logged out successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
