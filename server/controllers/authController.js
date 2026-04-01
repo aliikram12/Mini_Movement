@@ -1,8 +1,11 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const generateAccessToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '15m' });
-const generateRefreshToken = (id) => jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '30d' });
+const JWT_SECRET = process.env.JWT_SECRET || 'mini-movements-secret-key-2026';
+const REFRESH_SECRET = process.env.REFRESH_TOKEN_SECRET || 'mini-movements-refresh-token-secret-xyz';
+
+const generateAccessToken = (id) => jwt.sign({ id }, JWT_SECRET, { expiresIn: '15m' });
+const generateRefreshToken = (id) => jwt.sign({ id }, REFRESH_SECRET, { expiresIn: '30d' });
 
 const setCookies = (res, accessToken, refreshToken) => {
   const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';

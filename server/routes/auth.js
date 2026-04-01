@@ -2,7 +2,10 @@ const express = require('express');
 const { register, login, logout, refresh, getMe, updateProfile, getUsers } = require('../controllers/authController');
 const { protect, admin } = require('../middleware/auth');
 const { validate, registerSchema, loginSchema } = require('../middleware/validate');
+const dbGuard = require('../middleware/dbGuard');
 const router = express.Router();
+
+router.use(dbGuard); // Ensure DB connection for all auth routes
 
 router.post('/register', validate(registerSchema), register);
 router.post('/login', validate(loginSchema), login);
