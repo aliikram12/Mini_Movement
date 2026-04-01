@@ -35,8 +35,10 @@ const CustomOrder = () => {
   const handleDrop = useCallback((e) => { e.preventDefault(); setDragActive(false); handleFiles(e.dataTransfer.files); }, []);
 
   const handleSubmit = async () => {
-    if (!isAuthenticated) { toast.error('Please login first'); navigate('/login'); return; }
+    if (!isAuthenticated) { toast.error('Please login first 🧸'); navigate('/login'); return; }
     setLoading(true);
+    const toastId = toast.loading?.('Creating your custom keepsake... 🧸✨') || 'loading';
+    
     try {
       const fd = new FormData();
       fd.append('teddyProduct', selectedBear._id);
@@ -45,14 +47,29 @@ const CustomOrder = () => {
       fd.append('selectedColor', selectedColor);
       fd.append('selectedSize', selectedSize?.name || '');
       fd.append('price', selectedSize?.price || selectedBear.price);
-      fd.append('shippingAddress', JSON.stringify({ fullName: form.fullName, email: form.email, phone: form.phone, street: form.street, city: form.city, state: form.state, zip: form.zip, country: form.country }));
+      fd.append('shippingAddress', JSON.stringify({
+        fullName: form.fullName, email: form.email, phone: form.phone,
+        street: form.street, city: form.city, state: form.state,
+        zip: form.zip, country: form.country
+      }));
       images.forEach(f => fd.append('outfitImages', f));
 
-      await createCustomOrder(fd);
-      toast.success('Custom order placed! We can\'t wait to create your keepsake! 🧸');
-      navigate('/payment-success');
-    } catch (err) { toast.error(err.response?.data?.message || 'Failed to create order'); }
-    finally { setLoading(false); }
+      const { data } = await createCustomOrder(fd);
+      
+      // Success Path
+      toast.dismiss?.(toastId);
+      toast.success('Your keepsake journey has begun! 🧸💖');
+      
+      // Navigate to dashboard where they can see their new order
+      navigate('/dashboard', { state: { newOrder: data._id } });
+    } catch (err) {
+      toast.dismiss?.(toastId);
+      const msg = err.response?.data?.message || 'Submission failed. Please check your photos and try again.';
+      toast.error(msg);
+      console.error('Submission error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

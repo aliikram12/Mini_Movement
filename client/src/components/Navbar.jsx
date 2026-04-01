@@ -23,9 +23,21 @@ const Navbar = () => {
   useEffect(() => { setOpen(false); setUserMenuOpen(false); }, [loc]);
 
   const handleLogout = async () => {
-    try { await logoutUser(); } catch (e) { console.error("Logout error:", e); }
-    storeLogout();
-    navigate('/login');
+    try {
+      // 1. Tell backend to clear cookies
+      await logoutUser();
+      // 2. Clear store and UI state
+      storeLogout();
+      setUserMenuOpen(false);
+      // 3. Hard Refresh + Redirect for a clean slate
+      toast.success('Signed out safely. See you soon! 🧸👋');
+      window.location.href = '/'; 
+    } catch (e) {
+      console.error("Logout error:", e);
+      // Even if network fails, force client-side logout
+      storeLogout();
+      window.location.href = '/';
+    }
   };
 
   const links = [

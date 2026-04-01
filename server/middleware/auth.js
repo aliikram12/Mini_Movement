@@ -1,5 +1,4 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const JWT_SECRET = process.env.JWT_SECRET || 'mini-movements-secret-key-2026';
 
 const protect = async (req, res, next) => {
   try {
@@ -9,7 +8,7 @@ const protect = async (req, res, next) => {
     }
     if (!token) return res.status(401).json({ message: 'Not authorized' });
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     req.user = await User.findById(decoded.id);
     if (!req.user) return res.status(401).json({ message: 'User not found' });
     next();

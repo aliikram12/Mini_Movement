@@ -12,14 +12,17 @@ exports.createCheckoutSession = async (req, res) => {
       quantity: item.quantity
     }));
 
+    const origin = req.headers.origin || 'https://mini-movements.vercel.app';
+    
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${process.env.CLIENT_URL || 'https://mini-movements.vercel.app'}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.CLIENT_URL || 'https://mini-movements.vercel.app'}/payment-cancel`,
+      success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/payment-cancel`,
+      customer_email: req.user.email,
       metadata: { 
-        userId: req.user?._id?.toString() || 'anonymous', 
+        userId: req.user._id.toString(),
         shippingAddress: typeof shippingAddress === 'string' ? shippingAddress : JSON.stringify(shippingAddress || {})
       }
     });

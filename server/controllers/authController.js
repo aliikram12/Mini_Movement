@@ -10,17 +10,21 @@ const generateRefreshToken = (id) => jwt.sign({ id }, REFRESH_SECRET, { expiresI
 const setCookies = (res, accessToken, refreshToken) => {
   const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
   
+  const commonOptions = {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax',
+    path: '/'
+  };
+
   res.cookie('accessToken', accessToken, {
-    httpOnly: true, 
-    secure: isProd,
-    sameSite: isProd ? 'none' : 'lax', 
-    maxAge: 15 * 60 * 1000
+    ...commonOptions,
+    maxAge: 15 * 60 * 1000 // 15 mins
   });
+  
   res.cookie('refreshToken', refreshToken, {
-    httpOnly: true, 
-    secure: isProd,
-    sameSite: isProd ? 'none' : 'lax', 
-    maxAge: 30 * 24 * 60 * 60 * 1000
+    ...commonOptions,
+    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
   });
 };
 
@@ -87,6 +91,7 @@ exports.logout = async (req, res) => {
   try {
     const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
     
+    // Clear user's refresh token from DB if they are authenticated
     if (req.user) {
       req.user.refreshToken = '';
       await req.user.save();
@@ -95,15 +100,17 @@ exports.logout = async (req, res) => {
     const cookieOptions = {
       httpOnly: true,
       secure: isProd,
-      sameSite: isProd ? 'none' : 'lax'
+      sameSite: isProd ? 'none' : 'lax',
+      path: '/'
     };
 
     res.clearCookie('accessToken', cookieOptions);
     res.clearCookie('refreshToken', cookieOptions);
     
-    res.json({ message: 'Logged out successfully' });
+    res.json({ message: 'Logged out successfully 🧸👋' });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('❌ Signout Error:', err);
+    res.status(500).json({ message: 'Server error during signout' });
   }
 };
 
@@ -112,17 +119,22 @@ exports.refresh = async (req, res) => {
     const token = req.cookies?.refreshToken;
     if (!token) return res.status(401).json({ message: 'No refresh token' });
 
-    const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+    const decoded = jwt.verify(token, REFRESH_SECRET);
     const user = await User.findById(decoded.id).select('+refreshToken');
     if (!user || user.refreshToken !== token) return res.status(401).json({ message: 'Invalid refresh token' });
 
     const accessToken = generateAccessToken(user._id);
+    const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+    
     res.cookie('accessToken', accessToken, {
-      httpOnly: true, secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax', maxAge: 15 * 60 * 1000
+      httpOnly: true, 
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax', 
+      maxAge: 15 * 60 * 1000
     });
     res.json({ accessToken });
   } catch (err) {
+    console.error('❌ Refresh Error:', err.message);
     res.status(401).json({ message: 'Invalid refresh token' });
   }
 };
