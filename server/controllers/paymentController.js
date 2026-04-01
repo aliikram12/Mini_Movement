@@ -46,15 +46,35 @@ exports.createPaymentIntent = async (req, res) => {
   }
 };
 
+const Order = require('../models/Order');
+const CustomOrder = require('../models/CustomOrder');
+
 exports.webhook = async (req, res) => {
   const sig = req.headers['stripe-signature'];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
   try {
-    const event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    const event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    
     if (event.type === 'checkout.session.completed') {
-      console.log('✅ Payment successful:', event.data.object.id);
+      const session = event.data.object;
+      const { orderId, isCustom } = session.metadata || {};
+
+      console.log(`📦 Webhook: Updating ${isCustom === 'true' ? 'CustomOrder' : 'Order'} ${orderId} to Paid`);
+
+      const Model = isCustom === 'true' ? CustomOrder : Order;
+      await Model.findByIdAndUpdate(orderId, {
+        isPaid: true,
+        paidAt: new Date(),
+        stripePaymentId: session.id,
+        status: isCustom === 'true' ? 'outfit_received' : 'processing'
+      });
+      
+      console.log('✅ Order marked as PAID in Atlas ✨');
     }
     res.json({ received: true });
   } catch (err) {
+    console.error('❌ Webhook error:', err.message);
     res.status(400).json({ message: `Webhook error: ${err.message}` });
   }
 };

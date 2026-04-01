@@ -27,11 +27,33 @@ const Dashboard = () => {
   const [profileForm, setProfileForm] = useState({ name: user?.name || '', phone: user?.phone || '' });
 
   useEffect(() => {
-    if (tab === 'orders') { setLoading(true); getMyOrders().then(r => setOrders(r.data)).catch(console.error).finally(() => setLoading(false)); }
-    if (tab === 'custom') { setLoading(true); getMyCustomOrders().then(r => setCustomOrders(r.data)).catch(console.error).finally(() => setLoading(false)); }
-  }, [tab]);
+    // Instant Load for all data
+    const fetchAll = async () => {
+      setLoading(true);
+      try {
+        const [o, co] = await Promise.all([getMyOrders(), getMyCustomOrders()]);
+        setOrders(o.data);
+        setCustomOrders(co.data);
+      } catch (err) {
+        console.error("Dashboard fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAll();
+  }, []);
 
-  const handleLogout = async () => { try { await logoutUser(); } catch {} storeLogout(); navigate('/'); };
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      storeLogout();
+      toast.success('Safe travels! 🧸👋');
+      window.location.href = '/'; 
+    } catch (e) {
+      storeLogout();
+      window.location.href = '/'; 
+    }
+  };
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
