@@ -1,4 +1,6 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
+console.log('📝 Environment variables loaded.');
+console.log('📍 MONGO_URI exists:', !!process.env.MONGO_URI);
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -8,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 
 const app = express();
-connectDB();
+// connectDB is now called inside startServer() at the bottom
 
 // Security
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
@@ -32,13 +34,7 @@ app.use('/api/payments', require('./routes/payments'));
 
 app.get('/api/health', (_, res) => res.json({ status: 'OK', message: 'Mini Movements API ✨' }));
 
-// Serve frontend in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html')));
-} else {
-  app.get('/', (_, res) => res.json({ status: 'OK', message: 'Welcome to Mini Movements Backend API 🧸✨' }));
-}
+app.get('/', (_, res) => res.json({ status: 'OK', message: 'Welcome to Mini Movements Backend API 🧸✨' }));
 
 // Error handler
 app.use((err, req, res, next) => {
@@ -46,12 +42,23 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong!', error: process.env.NODE_ENV === 'development' ? err.message : undefined });
 });
 
-const PORT = process.env.PORT || 5000;
+const startServer = async () => {
+  try {
+    // 1. Connect to Database first
+    await connectDB();
 
-// Prevent direct listen when running as a serverless function on Vercel
-if (process.env.VERCEL !== '1') {
-  app.listen(PORT, () => console.log(`🚀 Mini Movements API on port ${PORT}`));
-}
+    // 2. Start Listening
+    const PORT = process.env.PORT || 5000;
+    if (process.env.VERCEL !== '1') {
+      app.listen(PORT, () => console.log(`🚀 Mini Movements Server Ready on port ${PORT}`));
+    }
+  } catch (error) {
+    console.error('❌ Failed to start server:', error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 // Export the app for serverless platforms (Vercel)
 module.exports = app;
