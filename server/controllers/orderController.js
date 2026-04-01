@@ -12,14 +12,25 @@ exports.createOrder = async (req, res) => {
     const totalAmount = Number((subtotal + shippingCost + tax).toFixed(2));
 
     const order = await Order.create({
-      user: req.user._id, items, shippingAddress,
-      subtotal, shippingCost, tax, totalAmount, isPaid: true, paidAt: Date.now()
+      user: req.user._id, 
+      items, 
+      shippingAddress,
+      subtotal, 
+      shippingCost, 
+      tax, 
+      totalAmount, 
+      isPaid: true, 
+      paidAt: Date.now()
     });
+
+    // Verification Step: Ensure data exists in Atlas
+    const savedOrder = await Order.findById(order._id).lean();
+    if (!savedOrder) throw new Error('Order creation failed in Atlas');
 
     for (const item of items) {
       await Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.quantity } });
     }
-    res.status(201).json(order);
+    res.status(201).json(savedOrder);
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }

@@ -11,23 +11,21 @@ const connectDB = require('./config/db');
 
 const app = express();
 // Trust Proxy for Vercel
+// Production Proxy Trust
 app.set('trust proxy', 1);
-// connectDB is now called inside startServer() at the bottom
 
 // CORS Configuration
 const allowedOrigins = [
   process.env.CLIENT_URL,
   'http://localhost:3000',
-  'https://mini-movements.vercel.app',
-  'https://mini-movement.vercel.app'
+  'https://mini-movement.vercel.app',
+  'https://mini-movements.vercel.app'
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    const isVercel = origin.endsWith('.vercel.app');
-    const isAllowed = allowedOrigins.includes(origin);
-    if (isVercel || isAllowed) {
+    // In production, when using the Vercel proxy, the origin might be absent or same-site
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
       console.warn(`🔒 CORS blocked: ${origin}`);
@@ -36,7 +34,7 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Cookie']
 }));
 app.use(cookieParser());
 

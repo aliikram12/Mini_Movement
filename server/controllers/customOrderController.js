@@ -47,7 +47,11 @@ exports.createCustomOrder = async (req, res) => {
       shippingAddress: parsedAddress
     });
 
-    res.status(201).json(order);
+    // Verification Step: Ensure data exists in Atlas
+    const savedOrder = await CustomOrder.findById(order._id).lean();
+    if (!savedOrder) throw new Error('Failed to verify order storage in Atlas');
+
+    res.status(201).json(savedOrder);
   } catch (err) {
     console.error("Custom Order Creation Error:", err);
     res.status(500).json({ message: 'Server error', error: err.message, stack: err.stack, name: err.name });
