@@ -10,6 +10,8 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 
 const app = express();
+// Trust Proxy for Vercel
+app.set('trust proxy', 1);
 // connectDB is now called inside startServer() at the bottom
 
 // Security

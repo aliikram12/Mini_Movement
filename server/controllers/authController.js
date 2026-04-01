@@ -5,22 +5,35 @@ const generateAccessToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { e
 const generateRefreshToken = (id) => jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '30d' });
 
 const setCookies = (res, accessToken, refreshToken) => {
+  const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+  
   res.cookie('accessToken', accessToken, {
-    httpOnly: true, secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax', maxAge: 15 * 60 * 1000
+    httpOnly: true, 
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax', 
+    maxAge: 15 * 60 * 1000
   });
   res.cookie('refreshToken', refreshToken, {
-    httpOnly: true, secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax', maxAge: 30 * 24 * 60 * 60 * 1000
+    httpOnly: true, 
+    secure: isProd,
+    sameSite: isProd ? 'none' : 'lax', 
+    maxAge: 30 * 24 * 60 * 60 * 1000
   });
 };
 
 exports.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    if (await User.findOne({ email })) return res.status(400).json({ message: 'Email already registered' });
+    console.log(`📝 Signup attempt for: ${email}`);
+
+    if (await User.findOne({ email })) {
+      console.warn(`⚠️ signup failed: Email ${email} already exists.`);
+      return res.status(400).json({ message: 'Email already registered' });
+    }
 
     const user = await User.create({ name, email, password });
+    console.log(`✅ User created successfully: ${user._id}`);
+
     const accessToken = generateAccessToken(user._id);
     const refreshToken = generateRefreshToken(user._id);
     user.refreshToken = refreshToken;
@@ -29,7 +42,8 @@ exports.register = async (req, res) => {
 
     res.status(201).json({ user: { _id: user._id, name: user.name, email: user.email, role: user.role }, accessToken });
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    console.error('❌ Registration Error:', err.message);
+    res.status(500).json({ message: 'Server error during registration', error: err.message });
   }
 };
 
