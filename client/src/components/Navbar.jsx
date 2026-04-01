@@ -1,23 +1,32 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HiOutlineShoppingBag, HiOutlineUser, HiOutlineMenu, HiOutlineX } from 'react-icons/hi';
+import { HiOutlineShoppingBag, HiOutlineUser, HiOutlineMenu, HiOutlineX, HiOutlineLogout, HiOutlineViewGrid } from 'react-icons/hi';
 import useCartStore from '../store/cartStore';
 import useAuthStore from '../store/authStore';
+import { logoutUser } from '../services/api';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const loc = useLocation();
+  const navigate = useNavigate();
   const count = useCartStore(s => s.getItemCount());
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user, logout: storeLogout } = useAuthStore();
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', h);
     return () => window.removeEventListener('scroll', h);
   }, []);
-  useEffect(() => setOpen(false), [loc]);
+  useEffect(() => { setOpen(false); setUserMenuOpen(false); }, [loc]);
+
+  const handleLogout = async () => {
+    try { await logoutUser(); } catch (e) { console.error("Logout error:", e); }
+    storeLogout();
+    navigate('/login');
+  };
 
   const links = [
     { to: '/', label: 'Home' },
@@ -54,10 +63,51 @@ const Navbar = () => {
               <HiOutlineShoppingBag className="w-5 h-5 text-brand-medium group-hover:text-brand-dark" />
               {count > 0 && <motion.span initial={{scale:0}} animate={{scale:1}} className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-brand-warm text-white text-[10px] font-bold rounded-full flex items-center justify-center">{count}</motion.span>}
             </Link>
-            <Link to={isAuthenticated ? '/dashboard' : '/login'} className="p-2.5 rounded-2xl hover:bg-baby-blue/20 transition-all group">
-              <HiOutlineUser className="w-5 h-5 text-brand-medium group-hover:text-brand-dark" />
-            </Link>
-            {isAuthenticated && user?.role === 'admin' && <Link to="/admin" className="hidden md:inline-flex btn-accent !py-2 !px-4 text-xs">Admin</Link>}
+            
+            <div className="relative">
+              <button 
+                onClick={() => isAuthenticated ? setUserMenuOpen(!userMenuOpen) : navigate('/login')}
+                className="p-2.5 rounded-2xl hover:bg-baby-blue/20 transition-all group"
+              >
+                <HiOutlineUser className={`w-5 h-5 transition-colors ${isAuthenticated ? 'text-brand-warm' : 'text-brand-medium group-hover:text-brand-dark'}`} />
+              </button>
+
+              <AnimatePresence>
+                {userMenuOpen && isAuthenticated && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    className="absolute right-0 mt-2 w-56 glass-strong rounded-3xl shadow-soft-xl p-2 border border-white/40 overflow-hidden"
+                  >
+                    <div className="px-4 py-3 border-b border-baby-pink/10 mb-1">
+                      <p className="text-xs text-brand-muted">Signed in as</p>
+                      <p className="text-sm font-semibold text-brand-dark truncate">{user.name}</p>
+                    </div>
+                    
+                    <Link to="/dashboard" className="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-sm text-brand-medium hover:bg-baby-pink/20 hover:text-brand-dark transition-all">
+                      <HiOutlineViewGrid className="w-4 h-4" /> Dashboard
+                    </Link>
+
+                    {user.role === 'admin' && (
+                      <Link to="/admin" className="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-sm text-brand-medium hover:bg-baby-blue/20 hover:text-brand-dark transition-all">
+                        <span className="w-4 h-4 flex items-center justify-center text-[10px] font-bold border border-current rounded-md">A</span> Admin Panel
+                      </Link>
+                    )}
+
+                    <hr className="my-1 border-baby-pink/10" />
+                    
+                    <button 
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 rounded-2xl text-sm text-red-400 hover:bg-red-50 transition-all"
+                    >
+                      <HiOutlineLogout className="w-4 h-4" /> Sign Out
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <button onClick={() => setOpen(!open)} className="lg:hidden p-2.5 rounded-2xl hover:bg-baby-pink/20">
               {open ? <HiOutlineX className="w-5 h-5" /> : <HiOutlineMenu className="w-5 h-5" />}
             </button>
