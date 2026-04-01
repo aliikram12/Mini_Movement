@@ -20,7 +20,7 @@ API.interceptors.response.use(
     if (error.response?.status === 401 && !original._retry) {
       original._retry = true;
       try {
-        const { data } = await axios.post('/api/auth/refresh', {}, { withCredentials: true });
+        const { data } = await API.post('/auth/refresh', {}, { withCredentials: true });
         const stored = localStorage.getItem('auth-storage');
         if (stored) {
           const parsed = JSON.parse(stored);
