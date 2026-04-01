@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { font-family: 'Inter', sans-serif; background: #FFFAF0; color: #2D1F3D; overflow-x: hidden; }
+  ::selection { background: #FADADD; color: #2D1F3D; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #FFF5E1; }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #FADADD, #CDE7FF); border-radius: 10px; }
+}
+
+@layer components {
+  .glass { background: rgba(255,255,255,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.4); }
+  .glass-strong { background: rgba(255,255,255,0.88); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.5); }
+  .gradient-text { background: linear-gradient(135deg, #D4A574 0%, #F0B8BC 50%, #9DCFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .btn-primary { @apply px-8 py-3.5 bg-gradient-to-r from-baby-pink to-baby-pink-deep text-brand-dark font-semibold rounded-2xl shadow-soft transition-all duration-500 ease-out hover:shadow-pink hover:scale-105 hover:-translate-y-1 active:scale-95; }
+  .btn-secondary { @apply px-8 py-3.5 bg-white/80 text-brand-medium font-medium rounded-2xl border border-baby-pink/30 shadow-soft transition-all duration-500 ease-out hover:bg-baby-pink/20 hover:scale-105 hover:shadow-soft-lg hover:-translate-y-1 active:scale-95; }
+  .btn-accent { @apply px-8 py-3.5 bg-gradient-to-r from-brand-dark to-brand-medium text-white font-semibold rounded-2xl shadow-soft-lg transition-all duration-500 ease-out hover:shadow-soft-xl hover:scale-105 hover:-translate-y-1 active:scale-95; }
+  .btn-warm { @apply px-8 py-3.5 bg-gradient-to-r from-brand-warm to-[#E8BA8A] text-white font-semibold rounded-2xl shadow-soft transition-all duration-500 ease-out hover:shadow-soft-lg hover:scale-105 hover:-translate-y-1 active:scale-95; }
+  .card { @apply bg-white rounded-3xl shadow-soft overflow-hidden transition-all duration-500 ease-out; }
+  .card-hover { @apply hover:shadow-soft-xl hover:-translate-y-2 hover:scale-[1.02]; }
+  .input-field { @apply w-full px-5 py-3.5 bg-white/80 border border-baby-pink/30 rounded-2xl text-brand-dark placeholder:text-brand-muted/60 focus:outline-none focus:border-baby-pink-deep focus:ring-2 focus:ring-baby-pink/20 transition-all duration-300 font-inter; }
+  .container-custom { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+  .skeleton { @apply bg-gradient-to-r from-cream via-baby-pink/20 to-cream bg-[length:200%_100%] animate-shimmer rounded-2xl; }
+  .badge { @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium; }
+}
