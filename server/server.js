@@ -14,27 +14,29 @@ const app = express();
 app.set('trust proxy', 1);
 // connectDB is now called inside startServer() at the bottom
 
-// Security
-app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
-app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 200 }));
 // CORS Configuration
 const allowedOrigins = [
   process.env.CLIENT_URL,
   'http://localhost:3000',
-  'https://mini-movements.vercel.app', // Production frontend URL
+  'https://mini-movements.vercel.app',
+  'https://mini-movement.vercel.app'
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1 || origin.includes('.vercel.app')) {
+    const isVercel = origin.endsWith('.vercel.app');
+    const isAllowed = allowedOrigins.includes(origin);
+    if (isVercel || isAllowed) {
       callback(null, true);
     } else {
+      console.warn(`🔒 CORS blocked: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 }));
 app.use(cookieParser());
 

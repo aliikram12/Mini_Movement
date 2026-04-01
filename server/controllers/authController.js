@@ -24,26 +24,40 @@ const setCookies = (res, accessToken, refreshToken) => {
 exports.register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    console.log(`📝 Signup attempt for: ${email}`);
+    console.log(`📝 Signup attempt: ${email}`);
+
+    // Input Validation
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'All fields (name, email, password) are required.' });
+    }
 
     if (await User.findOne({ email })) {
-      console.warn(`⚠️ signup failed: Email ${email} already exists.`);
-      return res.status(400).json({ message: 'Email already registered' });
+      return res.status(400).json({ message: 'This email is already registered.' });
     }
 
     const user = await User.create({ name, email, password });
-    console.log(`✅ User created successfully: ${user._id}`);
-
+    
     const accessToken = generateAccessToken(user._id);
     const refreshToken = generateRefreshToken(user._id);
     user.refreshToken = refreshToken;
     await user.save();
+    
     setCookies(res, accessToken, refreshToken);
 
-    res.status(201).json({ user: { _id: user._id, name: user.name, email: user.email, role: user.role }, accessToken });
+    res.status(201).json({ 
+      user: { _id: user._id, name: user.name, email: user.email, role: user.role }, 
+      accessToken 
+    });
   } catch (err) {
     console.error('❌ Registration Error:', err.message);
-    res.status(500).json({ message: 'Server error during registration', error: err.message });
+    
+    // Catch Mongoose Validation Errors (e.g. password too short)
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(e => e.message);
+      return res.status(400).json({ message: messages.join(', ') });
+    }
+    
+    res.status(500).json({ message: 'Database error during registration', error: err.message });
   }
 };
 
