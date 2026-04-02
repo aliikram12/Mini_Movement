@@ -167,3 +167,31 @@ exports.getUsers = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+exports.updateUser = async (req, res) => {
+  try {
+    const { name, email, role, password } = req.body;
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (role) user.role = role;
+    if (password) user.password = password;
+
+    await user.save();
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json({ message: 'User deleted' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};

@@ -42,6 +42,8 @@ export const logoutUser = () => API.post('/auth/logout');
 export const getMe = () => API.get('/auth/me');
 export const updateProfile = (d) => API.put('/auth/profile', d);
 export const getUsers = () => API.get('/auth/users');
+export const updateUser = (id, d) => API.put(`/auth/users/${id}`, d);
+export const deleteUser = (id) => API.delete(`/auth/users/${id}`);
 
 // Products
 export const getProducts = (p) => API.get('/products', { params: p });

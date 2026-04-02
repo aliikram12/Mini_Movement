@@ -1,5 +1,5 @@
 const express = require('express');
-const { register, login, logout, refresh, getMe, updateProfile, getUsers } = require('../controllers/authController');
+const { register, login, logout, refresh, getMe, updateProfile, getUsers, updateUser, deleteUser } = require('../controllers/authController');
 const { protect, admin } = require('../middleware/auth');
 const { validate, registerSchema, loginSchema } = require('../middleware/validate');
 const dbGuard = require('../middleware/dbGuard');
@@ -14,5 +14,7 @@ router.post('/refresh', refresh);
 router.get('/me', protect, getMe);
 router.put('/profile', protect, updateProfile);
 router.get('/users', protect, admin, getUsers);
+router.put('/users/:id', protect, admin, updateUser);
+router.delete('/users/:id', protect, admin, deleteUser);
 
 module.exports = router;
