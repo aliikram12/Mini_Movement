@@ -52,7 +52,8 @@ const Checkout = () => {
     finally { setLoading(false); }
   };
 
-  if (!items.length) return null;
+  // No longer returning null here to prevent blank screen flicker during rehydration.
+  // The useEffect above will handle the redirect if the cart remains empty.
 
   return (
     <div className="pt-24 pb-16 min-h-screen bg-cream-light">

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineShoppingBag, HiOutlineUser, HiOutlineMenu, HiOutlineX, HiOutlineLogout, HiOutlineViewGrid } from 'react-icons/hi';
 import useCartStore from '../store/cartStore';
 import useAuthStore from '../store/authStore';
+import useToastStore from '../store/toastStore';
 import { logoutUser } from '../services/api';
 
 const Navbar = () => {
@@ -14,6 +15,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const count = useCartStore(s => s.getItemCount());
   const { isAuthenticated, user, logout: storeLogout } = useAuthStore();
+  const toast = useToastStore();
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);

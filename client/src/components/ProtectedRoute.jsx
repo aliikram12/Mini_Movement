@@ -9,11 +9,17 @@ export const ProtectedRoute = ({ children }) => {
 
   // Small delay to allow Zustand to rehydrate (prevent flicker)
   useEffect(() => {
+    // If already authenticated by some means, don't wait
+    if (isAuthenticated) {
+      setLoading(false);
+      return;
+    }
+
     const checkRehydration = () => {
       const stored = localStorage.getItem('auth-storage');
       if (stored) {
-        // Even if stored, we give a tiny buffer for Zustand to process it
-        const timer = setTimeout(() => setLoading(false), 50);
+        // Just a tiny buffer for Zustand's internal processing
+        const timer = setTimeout(() => setLoading(false), 30);
         return () => clearTimeout(timer);
       }
       setLoading(false);
