@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
 const JWT_SECRET = process.env.JWT_SECRET || 'mini-movements-secret-key-2026';
 
 const protect = async (req, res, next) => {
