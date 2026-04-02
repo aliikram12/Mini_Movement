@@ -8,9 +8,7 @@ export const Spinner = ({ size = 'md' }) => {
 export const PageLoader = () => (
   <div className="min-h-screen flex flex-col items-center justify-center bg-cream-light">
     <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center gap-4">
-      <div className="w-14 h-14 rounded-2xl bg-hero-gradient flex items-center justify-center shadow-soft animate-float">
-        <span className="text-brand-dark font-playfair font-bold text-2xl">M</span>
-      </div>
+      <img src="/logo.jpeg" alt="Logo" className="w-14 h-14 rounded-2xl object-contain shadow-soft animate-float" />
       <Spinner />
       <p className="text-sm text-brand-muted font-inter">Creating something magical...</p>
     </motion.div>

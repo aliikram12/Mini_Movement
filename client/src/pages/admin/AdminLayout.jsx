@@ -24,10 +24,10 @@ const AdminLayout = () => {
   const Sidebar = ({ className = '' }) => (
     <div className={`w-64 bg-white border-r border-cream-dark/20 flex flex-col ${className}`}>
       <div className="p-6 border-b border-cream-dark/20">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-hero-gradient flex items-center justify-center"><span className="text-brand-dark font-playfair font-bold">M</span></div>
-          <div><h2 className="text-sm font-bold text-brand-dark leading-none font-poppins">Mini Movements</h2><p className="text-[9px] text-brand-muted tracking-[0.15em] uppercase">Admin Panel</p></div>
-        </Link>
+          <Link to="/" className="flex items-center gap-2">
+            <img src="/logo.jpeg" alt="Logo" className="w-9 h-9 object-contain rounded-xl" />
+            <div><h2 className="text-sm font-bold text-brand-dark leading-none font-poppins">Mini Movements</h2><p className="text-[9px] text-brand-muted tracking-[0.15em] uppercase">Admin Panel</p></div>
+          </Link>
       </div>
       <nav className="flex-1 p-4 space-y-1">
         {links.map(l => {

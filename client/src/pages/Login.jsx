@@ -38,7 +38,7 @@ const Login = () => {
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="relative w-full max-w-md mx-4">
         <div className="glass-strong p-8 md:p-10 rounded-3xl shadow-soft-xl">
           <div className="text-center mb-8">
-            <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-hero-gradient flex items-center justify-center shadow-soft"><span className="text-brand-dark font-playfair font-bold text-xl">M</span></div>
+            <img src="/logo.jpeg" alt="Logo" className="w-14 h-14 mx-auto mb-4 rounded-2xl object-contain shadow-soft" />
             <h1 className="font-playfair text-2xl font-bold text-brand-dark">Welcome Back</h1>
             <p className="text-sm text-brand-light mt-1">Sign in to your Mini Movements account</p>
           </div>
