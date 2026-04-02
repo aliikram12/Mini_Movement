@@ -13,9 +13,9 @@ const links = [
   { path: '/admin/users', label: 'Users', icon: <HiOutlineUsers className="w-5 h-5" /> },
 ];
 
-const Sidebar = ({ className = '', loc, setSidebarOpen, handleLogout, user }) => (
+const Sidebar = ({ className = '', loc, setSidebarOpen, handleLogout, user, showClose = false }) => (
   <div className={`w-64 bg-white border-r border-cream-dark/20 flex flex-col ${className}`}>
-    <div className="p-6 border-b border-cream-dark/20">
+    <div className="p-6 border-b border-cream-dark/20 flex items-center justify-between">
       <Link to="/" className="flex items-center gap-2">
         <img src="/logo.jpeg" alt="Logo" className="w-9 h-9 object-contain rounded-xl" />
         <div>
@@ -23,8 +23,17 @@ const Sidebar = ({ className = '', loc, setSidebarOpen, handleLogout, user }) =>
           <p className="text-[9px] text-brand-muted tracking-[0.15em] uppercase">Admin Panel</p>
         </div>
       </Link>
+      {showClose && (
+        <button 
+          onClick={() => setSidebarOpen(false)} 
+          className="p-2 rounded-xl hover:bg-baby-pink/20 text-brand-dark transition-colors"
+          aria-label="Close sidebar"
+        >
+          <HiOutlineX className="w-5 h-5" />
+        </button>
+      )}
     </div>
-    <nav className="flex-1 p-4 space-y-1">
+    <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
       {links.map(l => {
         const active = l.exact ? loc.pathname === l.path : loc.pathname.startsWith(l.path);
         return (
@@ -75,7 +84,7 @@ const AdminLayout = () => {
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {sidebarOpen && (
-          <div className="lg:hidden fixed inset-0 z-50">
+          <div className="lg:hidden fixed inset-0 z-[60]">
             <motion.div 
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }} 
@@ -89,15 +98,16 @@ const AdminLayout = () => {
               animate={{ x: 0 }} 
               exit={{ x: '-100%' }} 
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="relative h-full w-72 max-w-[80vw]"
+              className="relative h-full w-72 max-w-[85vw]"
             >
-              <Sidebar className="h-full" loc={loc} setSidebarOpen={setSidebarOpen} handleLogout={handleLogout} user={user} />
-              <button 
-                onClick={() => setSidebarOpen(false)} 
-                className="absolute top-4 -right-12 p-2.5 bg-white rounded-xl shadow-soft text-brand-dark hover:scale-110 transition-all focus:outline-none"
-              >
-                <HiOutlineX className="w-6 h-6" />
-              </button>
+              <Sidebar 
+                className="h-full w-full" 
+                loc={loc} 
+                setSidebarOpen={setSidebarOpen} 
+                handleLogout={handleLogout} 
+                user={user} 
+                showClose={true} 
+              />
             </motion.div>
           </div>
         )}
