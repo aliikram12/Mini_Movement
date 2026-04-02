@@ -28,7 +28,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      // 1. Tell backend to clear cookies
+      
       await logoutUser();
       // 2. Clear store and UI state
       storeLogout();
