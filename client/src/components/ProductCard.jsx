@@ -22,11 +22,8 @@ const ProductCard = ({ product, index = 0 }) => {
           </div>
           <div className="absolute bottom-3 left-3 right-3 flex gap-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out z-10">
             <button onClick={handleAdd} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/90 backdrop-blur-sm rounded-xl text-brand-dark text-sm font-semibold hover:bg-white hover:text-brand-warm hover:shadow-soft-lg transition-all shadow-soft active:scale-95">
-              <HiOutlineShoppingCart className="w-4 h-4" /> Add to Cart
+              <HiOutlineShoppingCart className="w-5 h-5" /> Add to Cart
             </button>
-            <Link to={`/product/${product._id}`} className="p-2.5 bg-white/90 backdrop-blur-sm rounded-xl text-brand-dark hover:bg-white transition-all shadow-soft">
-              <HiOutlineEye className="w-4 h-4" />
-            </Link>
           </div>
         </div>
         <div className="p-5 flex flex-col flex-1">
@@ -42,7 +39,9 @@ const ProductCard = ({ product, index = 0 }) => {
               <span className="text-lg font-bold text-brand-dark">${product.price}</span>
               {product.comparePrice > 0 && <span className="text-sm text-brand-muted line-through">${product.comparePrice}</span>}
             </div>
-            <button onClick={handleAdd} className="p-2.5 rounded-xl bg-brand-warm/10 text-brand-warm hover:bg-brand-warm/20 transition-all shadow-sm"><HiOutlineShoppingCart className="w-4 h-4" /></button>
+            <Link to={`/product/${product._id}`} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-brand-warm/10 text-brand-warm hover:bg-brand-warm/20 transition-all shadow-sm text-xs font-semibold">
+              <HiOutlineEye className="w-4 h-4" /> View
+            </Link>
           </div>
         </div>
       </div>

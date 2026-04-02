@@ -40,12 +40,22 @@ exports.getProduct = async (req, res) => {
 };
 
 exports.createProduct = async (req, res) => {
-  try { res.status(201).json(await Product.create(req.body)); }
+  try { 
+    const { name, price, category, description } = req.body;
+    if (!name || isNaN(price) || !category || !description) {
+      return res.status(400).json({ message: 'Validation Error', error: 'Please fill all required fields correctly.' });
+    }
+    res.status(201).json(await Product.create(req.body)); 
+  }
   catch (err) { res.status(500).json({ message: 'Server error', error: err.message }); }
 };
 
 exports.updateProduct = async (req, res) => {
   try {
+    const { name, price, category, description } = req.body;
+    if (!name || isNaN(price) || !category || !description) {
+      return res.status(400).json({ message: 'Validation Error', error: 'Please fill all required fields correctly.' });
+    }
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.json(product);

@@ -77,18 +77,18 @@ const AdminProducts = () => {
       </div>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editId?'Edit Product':'New Product'} size="lg">
         <form onSubmit={submit}>
-          <div className="grid md:grid-cols-2 gap-x-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
             <InputField label="Name" name="name" value={form.name} onChange={change} required />
             <div className="mb-4"><label className="block text-sm font-medium text-brand-medium mb-1.5">Category</label><select name="category" value={form.category} onChange={change} className="input-field">{categories.map(c=><option key={c}>{c}</option>)}</select></div>
           </div>
           <InputField label="Short Description" name="shortDescription" value={form.shortDescription} onChange={change} />
           <div className="mb-4"><label className="block text-sm font-medium text-brand-medium mb-1.5">Description</label><textarea name="description" value={form.description} onChange={change} required rows="3" className="input-field resize-none" /></div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <InputField label="Price ($)" name="price" type="number" value={form.price} onChange={change} required />
             <InputField label="Compare ($)" name="comparePrice" type="number" value={form.comparePrice} onChange={change} />
             <InputField label="Stock" name="stock" type="number" value={form.stock} onChange={change} required />
           </div>
-          <InputField label="Image URL" name="images" value={form.images[0]} onChange={e => setForm({...form, images:[e.target.value]})} />
+          <InputField label="Image URL" name="images" value={form.images[0] || ''} onChange={e => setForm({...form, images:[e.target.value]})} />
           <InputField label="Tags" name="tags" value={form.tags} onChange={change} placeholder="gift, bestseller" />
           <div className="flex items-center gap-2 mb-4"><input type="checkbox" name="featured" checked={form.featured} onChange={change} id="featured" className="rounded" /><label htmlFor="featured" className="text-sm text-brand-medium">Featured</label></div>
           <div className="flex gap-3 pt-4"><button type="submit" className="btn-warm flex-1">{editId?'Update':'Create'}</button><button type="button" onClick={() => setShowModal(false)} className="btn-secondary">Cancel</button></div>
