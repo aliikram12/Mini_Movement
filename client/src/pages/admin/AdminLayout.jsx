@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineChartBar, HiOutlineCube, HiOutlineClipboardList, HiOutlineSparkles, HiOutlineUsers, HiOutlineArrowLeft, HiOutlineLogout, HiOutlineMenu, HiOutlineX } from 'react-icons/hi';
 import { useState } from 'react';
 import useAuthStore from '../../store/authStore';
