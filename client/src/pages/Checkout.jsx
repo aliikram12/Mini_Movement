@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { HiOutlineLockClosed } from 'react-icons/hi';
@@ -13,7 +13,20 @@ const Checkout = () => {
   const toast = useToastStore();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ fullName: '', email: '', phone: '', street: '', city: '', state: '', zip: '', country: 'United States' });
-  const total = getTotal(); const shipping = total > 75 ? 0 : 9.99; const tax = Number((total * 0.08).toFixed(2)); const grandTotal = (total + shipping + tax).toFixed(2);
+  
+  // Calculate totals robustly
+  const subtotal = items.reduce((t, i) => t + (Number(i.price) || 0) * (Number(i.quantity) || 1), 0);
+  const shipping = subtotal > 75 || subtotal === 0 ? 0 : 9.99;
+  const tax = Number((subtotal * 0.08).toFixed(2));
+  const grandTotal = (subtotal + shipping + tax).toFixed(2);
+
+  useEffect(() => {
+    if (!items.length) {
+      toast.error('Your cart is empty');
+      navigate('/cart');
+    }
+  }, [items.length, navigate, toast]);
+
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const submit = async (e) => {
@@ -39,7 +52,7 @@ const Checkout = () => {
     finally { setLoading(false); }
   };
 
-  if (!items.length) { navigate('/cart'); return null; }
+  if (!items.length) return null;
 
   return (
     <div className="pt-24 pb-16 min-h-screen bg-cream-light">
@@ -80,7 +93,7 @@ const Checkout = () => {
                 ))}</div>
                 <hr className="border-cream-dark/30 mb-4" />
                 <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-sm"><span className="text-brand-light">Subtotal</span><span className="font-medium text-brand-dark">${total.toFixed(2)}</span></div>
+                  <div className="flex justify-between text-sm"><span className="text-brand-light">Subtotal</span><span className="font-medium text-brand-dark">${subtotal.toFixed(2)}</span></div>
                   <div className="flex justify-between text-sm"><span className="text-brand-light">Shipping</span><span className={shipping===0?'text-green-600 font-bold':'font-medium text-brand-dark'}>{shipping===0?'FREE':`$${shipping}`}</span></div>
                   <div className="flex justify-between text-sm"><span className="text-brand-light">Tax</span><span className="font-medium text-brand-dark">${tax}</span></div>
                   <hr className="border-cream-dark/30" />
