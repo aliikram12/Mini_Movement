@@ -57,7 +57,21 @@ const AdminLayout = () => {
         <div className="w-9" />
       </div>
       {/* Mobile Sidebar Overlay */}
-      {sidebarOpen && <div className="lg:hidden fixed inset-0 z-50"><div className="absolute inset-0 bg-black/30" onClick={() => setSidebarOpen(false)} /><motion.div initial={{ x: -260 }} animate={{ x: 0 }} className="relative h-full"><Sidebar /><button onClick={() => setSidebarOpen(false)} className="absolute top-4 right-4 p-2 rounded-xl hover:bg-baby-pink/20"><HiOutlineX className="w-5 h-5" /></button></motion.div></div>}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <div className="lg:hidden fixed inset-0 z-50">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
+              className="absolute inset-0 bg-brand-dark/40 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
+            <motion.div initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="relative h-full w-72 max-w-[80vw]">
+              <Sidebar className="h-full" />
+              <button onClick={() => setSidebarOpen(false)} className="absolute top-4 -right-12 p-2.5 bg-white rounded-xl shadow-soft text-brand-dark hover:scale-110 transition-all">
+                <HiOutlineX className="w-6 h-6" />
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
       {/* Main */}
       <main className="flex-1 lg:ml-64 p-4 lg:p-8 pt-20 lg:pt-8"><Outlet /></main>
     </div>

@@ -47,7 +47,7 @@ const Home = () => {
         </div>
         <motion.div style={{ y: heroY }} className="container-custom relative z-10 py-32">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial="hidden" animate="visible" className="max-w-xl">
+            <motion.div initial="hidden" animate="visible" className="max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
               <motion.div variants={fadeUp} custom={0} className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full text-sm font-medium text-brand-medium shadow-soft mb-6">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" /> Handcrafted with Love
               </motion.div>
@@ -55,10 +55,10 @@ const Home = () => {
                 Turn Your Baby's First Outfit Into a Memory You Can{' '}
                 <span className="gradient-text">Hug Forever</span>
               </motion.h1>
-              <motion.p variants={fadeUp} custom={2} className="text-lg text-brand-light leading-relaxed mb-8 max-w-lg">
+              <motion.p variants={fadeUp} custom={2} className="text-lg text-brand-light leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
                 Send us your baby's most precious outfit and we'll lovingly dress a premium teddy bear — creating a keepsake that captures the warmth of those earliest, most magical days.
               </motion.p>
-              <motion.div variants={fadeUp} custom={3} className="flex flex-wrap gap-4">
+              <motion.div variants={fadeUp} custom={3} className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <Link to="/custom-order" className="btn-warm inline-flex items-center gap-2 text-base">
                   Create Your Teddy <HiArrowRight className="w-4 h-4" />
                 </Link>
@@ -66,7 +66,7 @@ const Home = () => {
                   Browse Collection
                 </Link>
               </motion.div>
-              <motion.div variants={fadeUp} custom={4} className="flex items-center gap-6 mt-10 pt-8 border-t border-baby-pink/30">
+              <motion.div variants={fadeUp} custom={4} className="flex items-center justify-center lg:justify-start gap-6 mt-10 pt-8 border-t border-baby-pink/30">
                 <div className="text-center"><p className="text-2xl font-bold text-brand-dark font-playfair">2,500+</p><p className="text-xs text-brand-muted">Happy Families</p></div>
                 <div className="w-px h-10 bg-baby-pink/30" />
                 <div className="text-center"><p className="text-2xl font-bold text-brand-dark font-playfair">4.9 ⭐</p><p className="text-xs text-brand-muted">Average Rating</p></div>

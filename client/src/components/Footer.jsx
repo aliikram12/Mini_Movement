@@ -10,26 +10,26 @@ const Footer = () => (
         <div className="relative z-10">
           <h3 className="font-playfair text-2xl md:text-3xl font-bold text-brand-dark mb-3">Join the Mini Movements Family</h3>
           <p className="text-brand-medium text-sm mb-6 max-w-md mx-auto">Get exclusive offers and heartwarming stories delivered to your inbox.</p>
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto items-center">
             <input type="email" placeholder="Your email" className="input-field flex-1 text-center sm:text-left" />
-            <button className="btn-warm whitespace-nowrap !px-6">Subscribe 💌</button>
+            <button className="btn-warm whitespace-nowrap !px-6 w-full sm:w-auto">Subscribe 💌</button>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12 text-center md:text-left">
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <Link to="/" className="flex items-center gap-2 mb-4">
             <div className="w-10 h-10 rounded-2xl bg-hero-gradient flex items-center justify-center shadow-soft">
               <span className="text-brand-dark font-playfair font-bold text-lg">M</span>
             </div>
-            <div>
+            <div className="text-left">
               <h3 className="font-playfair font-bold text-brand-dark">Mini Movements</h3>
               <p className="text-[9px] text-brand-muted tracking-[0.2em] uppercase">Keepsake Bears</p>
             </div>
           </Link>
-          <p className="text-sm text-brand-light leading-relaxed mb-4">Turn your baby&apos;s first outfit into a memory you can hug forever.</p>
-          <div className="flex gap-3">
+          <p className="text-sm text-brand-light leading-relaxed mb-4 max-w-xs">Turn your baby&apos;s first outfit into a memory you can hug forever.</p>
+          <div className="flex gap-3 justify-center md:justify-start">
             {['Fb','Ig','Pt','Tw'].map(s => <a key={s} href="#" className="w-9 h-9 rounded-xl bg-baby-pink/20 flex items-center justify-center text-brand-light hover:bg-baby-pink/40 hover:text-brand-dark transition-all text-xs font-bold">{s}</a>)}
           </div>
         </div>
@@ -41,19 +41,19 @@ const Footer = () => (
           <h4 className="text-sm font-semibold text-brand-dark mb-4 uppercase tracking-wider">Company</h4>
           <ul className="space-y-2.5">{['About Us','How It Works','FAQ','Privacy Policy','Terms'].map(l => <li key={l}><a href="#" className="text-sm text-brand-light hover:text-brand-dark transition-colors">{l}</a></li>)}</ul>
         </div>
-        <div>
+        <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <h4 className="text-sm font-semibold text-brand-dark mb-4 uppercase tracking-wider">Contact</h4>
           <div className="space-y-3">
-            <div className="flex items-center gap-3 text-sm text-brand-light"><HiOutlineMail className="w-4 h-4 text-brand-warm" /><span>hello@minimovements.com</span></div>
-            <div className="flex items-center gap-3 text-sm text-brand-light"><HiOutlinePhone className="w-4 h-4 text-brand-warm" /><span>+1 (555) 123-4567</span></div>
-            <div className="flex items-start gap-3 text-sm text-brand-light"><HiOutlineLocationMarker className="w-4 h-4 text-brand-warm mt-0.5" /><span>123 Keepsake Lane,<br/>Memory City, MC 12345</span></div>
+            <div className="flex items-center justify-center md:justify-start gap-3 text-sm text-brand-light"><HiOutlineMail className="w-4 h-4 text-brand-warm" /><span>hello@minimovements.com</span></div>
+            <div className="flex items-center justify-center md:justify-start gap-3 text-sm text-brand-light"><HiOutlinePhone className="w-4 h-4 text-brand-warm" /><span>+1 (555) 123-4567</span></div>
+            <div className="flex items-start justify-center md:justify-start gap-3 text-sm text-brand-light"><HiOutlineLocationMarker className="w-4 h-4 text-brand-warm mt-0.5" /><span>123 Keepsake Lane,<br/>Memory City, MC 12345</span></div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-baby-pink/20 gap-4">
-        <p className="text-xs text-brand-muted">© {new Date().getFullYear()} Mini Movements. Made with 🧸💕</p>
-        <div className="flex items-center gap-2">{['Visa','MC','Amex','PayPal'].map(c => <span key={c} className="px-2 py-1 bg-baby-pink/10 rounded-lg text-[10px] font-medium text-brand-light">{c}</span>)}</div>
+      <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-baby-pink/20 gap-4 text-center md:text-left">
+        <p className="text-xs text-brand-muted order-2 md:order-1">© {new Date().getFullYear()} Mini Movements. Made with 🧸💕</p>
+        <div className="flex items-center gap-2 order-1 md:order-2 justify-center">{['Visa','MC','Amex','PayPal'].map(c => <span key={c} className="px-2 py-1 bg-baby-pink/10 rounded-lg text-[10px] font-medium text-brand-light">{c}</span>)}</div>
       </div>
     </div>
 

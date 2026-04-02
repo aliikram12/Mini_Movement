@@ -70,27 +70,27 @@ const ProductDetail = () => {
           </motion.div>
 
           {/* Details */}
-          <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
+          <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} className="text-center lg:text-left">
             <p className="text-sm font-medium text-brand-warm tracking-wider uppercase mb-2">{product.category}</p>
             <h1 className="font-playfair text-3xl md:text-4xl font-bold text-brand-dark mb-3">{product.name}</h1>
 
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center justify-center lg:justify-start gap-3 mb-6">
               <div className="flex">{[...Array(5)].map((_, i) => <HiStar key={i} className={`w-5 h-5 ${i < Math.round(product.rating) ? 'text-brand-warm' : 'text-gray-200'}`} />)}</div>
               <span className="text-sm text-brand-muted">({product.numReviews} reviews)</span>
             </div>
 
-            <div className="flex items-baseline gap-3 mb-6">
+            <div className="flex items-baseline justify-center lg:justify-start gap-3 mb-6">
               <span className="text-3xl font-bold text-brand-dark">${price}</span>
               {product.comparePrice > 0 && <span className="text-lg text-brand-muted line-through">${product.comparePrice}</span>}
             </div>
 
-            <p className="text-brand-light leading-relaxed mb-8">{product.description}</p>
+            <p className="text-brand-light leading-relaxed mb-8 mx-auto lg:mx-0 max-w-xl">{product.description}</p>
 
             {/* Colors */}
             {product.colors?.length > 0 && (
               <div className="mb-6">
                 <p className="text-sm font-medium text-brand-medium mb-3">Color: <span className="text-brand-dark">{selectedColor}</span></p>
-                <div className="flex gap-3">
+                <div className="flex justify-center lg:justify-start gap-3">
                   {product.colors.map(c => (
                     <button key={c.name} onClick={() => setSelectedColor(c.name)}
                       className={`w-10 h-10 rounded-xl border-2 transition-all relative ${selectedColor === c.name ? 'border-brand-dark scale-110 shadow-soft' : 'border-gray-200 hover:border-brand-warm'}`}
@@ -106,7 +106,7 @@ const ProductDetail = () => {
             {product.sizes?.length > 0 && (
               <div className="mb-6">
                 <p className="text-sm font-medium text-brand-medium mb-3">Size</p>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap justify-center lg:justify-start gap-3">
                   {product.sizes.map(s => (
                     <button key={s.name} onClick={() => setSelectedSize(s)}
                       className={`px-5 py-2.5 rounded-2xl text-sm font-medium border transition-all ${selectedSize?.name === s.name ? 'bg-brand-dark text-white border-brand-dark shadow-soft' : 'bg-white text-brand-medium border-baby-pink/30 hover:border-brand-warm'}`}>
@@ -118,16 +118,16 @@ const ProductDetail = () => {
             )}
 
             {/* Quantity + Add */}
-            <div className="flex items-center gap-4 mb-8">
-              <div className="flex items-center bg-white rounded-2xl border border-baby-pink/30 overflow-hidden">
-                <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-4 py-3 text-brand-light hover:text-brand-dark transition-colors text-lg font-medium">−</button>
-                <span className="px-4 py-3 text-brand-dark font-semibold min-w-[40px] text-center">{qty}</span>
-                <button onClick={() => setQty(Math.min(product.stock, qty + 1))} className="px-4 py-3 text-brand-light hover:text-brand-dark transition-colors text-lg font-medium">+</button>
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
+              <div className="flex items-center bg-white rounded-2xl border border-baby-pink/30 overflow-hidden w-full sm:w-auto justify-between sm:justify-start">
+                <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-6 py-3 text-brand-light hover:text-brand-dark transition-colors text-lg font-medium">−</button>
+                <span className="px-4 py-3 text-brand-dark font-semibold min-w-[60px] text-center text-lg">{qty}</span>
+                <button onClick={() => setQty(Math.min(product.stock, qty + 1))} className="px-6 py-3 text-brand-light hover:text-brand-dark transition-colors text-lg font-medium">+</button>
               </div>
-              <button onClick={handleAdd} disabled={product.stock === 0} className="btn-warm flex-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+              <button onClick={handleAdd} disabled={product.stock === 0} className="btn-warm w-full sm:flex-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed py-4">
                 <HiOutlineShoppingCart className="w-5 h-5" /> {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
               </button>
-              <button className="p-3.5 rounded-2xl border border-baby-pink/30 bg-white text-brand-light hover:text-red-400 hover:border-red-200 transition-all"><HiOutlineHeart className="w-5 h-5" /></button>
+              <button className="w-full sm:w-auto p-4 rounded-2xl border border-baby-pink/30 bg-white text-brand-light hover:text-red-400 hover:border-red-200 transition-all flex items-center justify-center"><HiOutlineHeart className="w-6 h-6" /></button>
             </div>
 
             {/* Features */}
