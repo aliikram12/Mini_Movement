@@ -1,7 +1,7 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineChartBar, HiOutlineCube, HiOutlineClipboardList, HiOutlineSparkles, HiOutlineUsers, HiOutlineArrowLeft, HiOutlineLogout, HiOutlineMenu, HiOutlineX } from 'react-icons/hi';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useAuthStore from '../../store/authStore';
 import { logoutUser } from '../../services/api';
 
@@ -40,7 +40,6 @@ const Sidebar = ({ className = '', loc, setSidebarOpen, handleLogout, user, show
           <Link 
             key={l.path} 
             to={l.path} 
-            onClick={() => setSidebarOpen(false)} 
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${active ? 'bg-baby-pink/20 text-brand-dark shadow-sm' : 'text-brand-light hover:bg-cream hover:text-brand-dark'}`}
           >
             {l.icon}{l.label}
@@ -64,6 +63,11 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   const { user, logout: storeLogout } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Global Sidebar Controller: Automatically close on every mobile navigation event
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [loc.pathname]);
 
   const handleLogout = async () => { try { await logoutUser(); } catch {} storeLogout(); navigate('/'); };
 
