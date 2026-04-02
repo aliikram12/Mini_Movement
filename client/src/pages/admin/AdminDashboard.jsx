@@ -10,8 +10,14 @@ const AdminDashboard = () => {
   const [customStats, setCustomStats] = useState({ total:0, pending:0, inProgress:0 });
 
   useEffect(() => {
-    Promise.all([getOrderStats(), getProducts(), getUsers(), getCustomOrderStats()])
-      .then(([o, p, u, c]) => { setStats(o.data); setProductCount(p.data.length); setUserCount(u.data.length); setCustomStats(c.data); })
+    Promise.allSettled([getOrderStats(), getProducts(), getUsers(), getCustomOrderStats()])
+      .then((results) => {
+        const [o, p, u, c] = results;
+        if (o.status === 'fulfilled' && o.value?.data) setStats(o.value.data);
+        if (p.status === 'fulfilled' && p.value?.data) setProductCount(p.value.data.length);
+        if (u.status === 'fulfilled' && u.value?.data) setUserCount(u.value.data.length);
+        if (c.status === 'fulfilled' && c.value?.data) setCustomStats(c.value.data);
+      })
       .catch(console.error);
   }, []);
 

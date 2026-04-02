@@ -16,8 +16,8 @@ const AdminProducts = () => {
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState(empty);
   const toast = useToastStore();
-  const fetch = () => { setLoading(true); getProducts().then(r => setProducts(r.data)).catch(console.error).finally(() => setLoading(false)); };
-  useEffect(fetch, []);
+  const loadProducts = () => { setLoading(true); getProducts().then(r => setProducts(r.data)).catch(console.error).finally(() => setLoading(false)); };
+  useEffect(loadProducts, []);
   const change = (e) => { const { name, value, type, checked } = e.target; setForm({ ...form, [name]: type==='checkbox'?checked:value }); };
 
   const openCreate = () => { setEditId(null); setForm(empty); setShowModal(true); };
@@ -38,7 +38,8 @@ const AdminProducts = () => {
         await createProduct(data); 
         toast.success('Created!'); 
       }
-      setShowModal(false); fetch();
+      setShowModal(false); 
+      loadProducts();
     } catch (err) { 
       console.error('Submit error:', err);
       const msg = err.response?.data?.error || err.response?.data?.message || 'Failed to save product';
@@ -46,7 +47,7 @@ const AdminProducts = () => {
     }
   };
 
-  const handleDelete = async (id) => { if (!confirm('Delete?')) return; try { await deleteProduct(id); toast.success('Deleted'); fetch(); } catch { toast.error('Failed'); } };
+  const handleDelete = async (id) => { if (!confirm('Delete?')) return; try { await deleteProduct(id); toast.success('Deleted'); loadProducts(); } catch { toast.error('Failed'); } };
 
   return (
     <div>
