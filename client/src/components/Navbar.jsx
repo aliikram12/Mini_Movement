@@ -56,7 +56,7 @@ const Navbar = () => {
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'glass-strong shadow-soft py-3' : 'bg-transparent py-5'}`}>
         <div className="container-custom flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-soft group-hover:shadow-pink transition-all overflow-hidden">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shadow-soft group-hover:shadow-pink transition-all overflow-hidden bg-white">
               <img src="/logo.jpeg" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <div className="hidden sm:block">
