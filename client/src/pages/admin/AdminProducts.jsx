@@ -25,12 +25,25 @@ const AdminProducts = () => {
 
   const submit = async (e) => {
     e.preventDefault();
+    console.log('Submitting form...', { editId, form });
     try {
-      const data = { ...form, price:Number(form.price), comparePrice:Number(form.comparePrice)||0, stock:Number(form.stock), images:form.images.filter(Boolean), tags:form.tags.split(',').map(t=>t.trim()).filter(Boolean) };
-      if (editId) { await updateProduct(editId, data); toast.success('Updated!'); }
-      else { await createProduct(data); toast.success('Created!'); }
+      const data = { ...form, price:Number(form.price), comparePrice:Number(form.comparePrice)||0, stock:Number(form.stock), images:form.images.filter(Boolean), tags:form.tags.toString().split(',').map(t=>t.trim()).filter(Boolean) };
+      if (editId) { 
+        console.log('Updating product:', editId, data);
+        await updateProduct(editId, data); 
+        toast.success('Updated!'); 
+      }
+      else { 
+        console.log('Creating product:', data);
+        await createProduct(data); 
+        toast.success('Created!'); 
+      }
       setShowModal(false); fetch();
-    } catch (err) { toast.error(err.response?.data?.message||'Failed'); }
+    } catch (err) { 
+      console.error('Submit error:', err);
+      const msg = err.response?.data?.error || err.response?.data?.message || 'Failed to save product';
+      toast.error(msg); 
+    }
   };
 
   const handleDelete = async (id) => { if (!confirm('Delete?')) return; try { await deleteProduct(id); toast.success('Deleted'); fetch(); } catch { toast.error('Failed'); } };

@@ -52,7 +52,7 @@ exports.register = async (req, res) => {
     setCookies(res, accessToken, refreshToken);
 
     res.status(201).json({ 
-      user: { _id: user._id, name: user.name, email: user.email, role: user.role }, 
+      user: { _id: user._id, name: user.name, email: user.email, role: user.role, cart: [] }, 
       accessToken 
     });
   } catch (err) {
@@ -81,7 +81,8 @@ exports.login = async (req, res) => {
     await user.save();
     setCookies(res, accessToken, refreshToken);
 
-    res.json({ user: { _id: user._id, name: user.name, email: user.email, role: user.role }, accessToken });
+    const populatedUser = await User.findById(user._id).populate('cart.product');
+    res.json({ user: populatedUser, accessToken });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
@@ -139,7 +140,10 @@ exports.refresh = async (req, res) => {
   }
 };
 
-exports.getMe = async (req, res) => { res.json(req.user); };
+exports.getMe = async (req, res) => { 
+  const user = await User.findById(req.user._id).populate('cart.product');
+  res.json(user); 
+};
 
 exports.updateProfile = async (req, res) => {
   try {

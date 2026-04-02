@@ -27,10 +27,14 @@ const ProductDetail = () => {
     }).catch(console.error).finally(() => setLoading(false));
   }, [id]);
 
-  const handleAdd = () => {
-    const p = { ...product, price: selectedSize?.price || product.price };
-    addItem(p, qty, selectedColor, selectedSize?.name || '');
-    toast.success(`${product.name} added to cart!`);
+  const handleAdd = async () => {
+    try {
+      const p = { ...product, price: selectedSize?.price || product.price };
+      await addItem(p, qty, selectedColor, selectedSize?.name || '');
+      toast.success(`${product.name} added to cart!`);
+    } catch (err) {
+      toast.error('Failed to add to cart');
+    }
   };
 
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-cream-light pt-24"><Spinner size="lg" /></div>;

@@ -15,7 +15,15 @@ const userSchema = new mongoose.Schema({
     zip: { type: String, default: '' },
     country: { type: String, default: '' }
   },
-  refreshToken: { type: String, select: false }
+  refreshToken: { type: String, select: false },
+  cart: [
+    {
+      product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+      quantity: { type: Number, default: 1 },
+      color: { type: String, default: '' },
+      size: { type: String, default: '' }
+    }
+  ]
 }, { timestamps: true });
 
 userSchema.index({ email: 1 });

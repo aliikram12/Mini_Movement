@@ -64,6 +64,11 @@ export const getAllCustomOrders = () => API.get('/custom-orders');
 export const updateCustomOrderStatus = (id, d) => API.put(`/custom-orders/${id}`, d);
 export const getCustomOrderStats = () => API.get('/custom-orders/stats');
 
+// Cart
+export const getCartDB = () => API.get('/cart');
+export const syncCartDB = (items) => API.post('/cart/sync', { items });
+export const clearCartDB = () => API.delete('/cart');
+
 // Payments
 export const createCheckoutSession = (d) => API.post('/payments/create-checkout-session', d);
 export const createPaymentIntent = (d) => API.post('/payments/create-payment-intent', d);

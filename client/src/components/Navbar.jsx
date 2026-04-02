@@ -15,6 +15,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const count = useCartStore(s => s.getItemCount());
   const { isAuthenticated, user, logout: storeLogout } = useAuthStore();
+  const fetchCart = useCartStore(s => s.fetchCart);
   const toast = useToastStore();
 
   useEffect(() => {
@@ -22,6 +23,7 @@ const Navbar = () => {
     window.addEventListener('scroll', h);
     return () => window.removeEventListener('scroll', h);
   }, []);
+  useEffect(() => { if (isAuthenticated) fetchCart(); }, [isAuthenticated]);
   useEffect(() => { setOpen(false); setUserMenuOpen(false); }, [loc]);
 
   const handleLogout = async () => {
@@ -54,8 +56,8 @@ const Navbar = () => {
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? 'glass-strong shadow-soft py-3' : 'bg-transparent py-5'}`}>
         <div className="container-custom flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-2xl bg-hero-gradient flex items-center justify-center shadow-soft group-hover:shadow-pink transition-all">
-              <span className="text-brand-dark font-playfair font-bold text-lg">M</span>
+            <div className="w-10 h-10 rounded-2xl bg-hero-gradient flex items-center justify-center shadow-soft group-hover:shadow-pink transition-all overflow-hidden border border-white/20">
+              <img src="public/src/assets/logo.jpeg" alt="Logo" className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
             </div>
             <div className="hidden sm:block">
               <h1 className="font-playfair font-bold text-brand-dark text-lg leading-none">Mini Movements</h1>
