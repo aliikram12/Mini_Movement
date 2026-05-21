@@ -60,7 +60,7 @@ const Navbar = () => {
               <img src="/logo.jpeg" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="font-playfair font-bold text-brand-dark text-lg leading-none">Mini Movements</h1>
+              <h1 className="font-playfair font-bold text-brand-dark text-lg leading-none">Miki Memory</h1>
               <p className="text-[9px] text-brand-muted tracking-[0.2em] uppercase">Keepsake Teddy Bears</p>
             </div>
           </Link>

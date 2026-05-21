@@ -8,9 +8,9 @@ const Footer = () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10 mb-12">
         <div className="sm:col-span-2 lg:col-span-1">
           <Link to="/" className="inline-block mb-4">
-            <img src="/logo.jpeg" alt="Mini Movements" className="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-2xl" />
+            <img src="/logo.jpeg" alt="Miki Memory" className="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-2xl" />
           </Link>
-          <h3 className="font-playfair text-lg font-bold text-brand-dark mb-1">Mini Movements</h3>
+          <h3 className="font-playfair text-lg font-bold text-brand-dark mb-1">Miki Memory</h3>
           <p className="text-sm text-brand-muted mb-2">Keepsake Teddy Bears</p>
           <p className="text-sm text-brand-light leading-relaxed max-w-xs">Turn your baby&apos;s first outfit into a memory you can hug forever.</p>
         </div>
@@ -76,7 +76,7 @@ const Footer = () => (
 
       <div className="pt-6 md:pt-8 border-t border-baby-pink/20">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
-          <p className="text-xs sm:text-sm text-brand-muted order-2 sm:order-1">© 2026 Mini Movements — Made with love</p>
+          <p className="text-xs sm:text-sm text-brand-muted order-2 sm:order-1">© 2026 Miki Memory — Made with love</p>
           <div className="flex items-center gap-1.5 sm:gap-2 order-1 sm:order-2">
             {['Visa', 'MC', 'Amex', 'PayPal'].map(c => (
               <span key={c} className="px-2 py-1 bg-baby-pink/20 rounded text-[10px] sm:text-xs font-medium text-brand-light">{c}</span>

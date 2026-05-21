@@ -19,7 +19,7 @@ const Sidebar = ({ className = '', loc, setSidebarOpen, handleLogout, user, show
       <Link to="/" className="flex items-center gap-2">
         <img src="/logo.jpeg" alt="Logo" className="w-9 h-9 object-contain rounded-xl" />
         <div>
-          <h2 className="text-sm font-bold text-brand-dark leading-none font-poppins">Mini Movements</h2>
+          <h2 className="text-sm font-bold text-brand-dark leading-none font-poppins">Miki Memory</h2>
           <p className="text-[9px] text-brand-muted tracking-[0.15em] uppercase">Admin Panel</p>
         </div>
       </Link>

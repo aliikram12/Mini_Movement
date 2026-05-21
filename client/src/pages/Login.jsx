@@ -40,7 +40,7 @@ const Login = () => {
           <div className="text-center mb-8">
             <img src="/logo.jpeg" alt="Logo" className="w-14 h-14 mx-auto mb-4 rounded-2xl object-contain shadow-soft" />
             <h1 className="font-playfair text-2xl font-bold text-brand-dark">Welcome Back</h1>
-            <p className="text-sm text-brand-light mt-1">Sign in to your Mini Movements account</p>
+            <p className="text-sm text-brand-light mt-1">Sign in to your Miki Memory account</p>
           </div>
           <form onSubmit={submit}>
             <InputField label="Email" name="email" type="email" value={form.email} onChange={handle} placeholder="you@example.com" error={errors.email} required icon={<HiOutlineMail className="w-4 h-4" />} />

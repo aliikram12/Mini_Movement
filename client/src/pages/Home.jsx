@@ -118,7 +118,7 @@ const Home = () => {
       <section className="py-24 bg-white">
         <div className="container-custom">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-16">
-            <motion.p variants={fadeUp} className="text-sm font-medium text-brand-warm tracking-wider uppercase mb-3">Why Mini Movements?</motion.p>
+            <motion.p variants={fadeUp} className="text-sm font-medium text-brand-warm tracking-wider uppercase mb-3">Why Miki Memory?</motion.p>
             <motion.h2 variants={fadeUp} custom={1} className="font-playfair text-3xl md:text-4xl font-bold text-brand-dark mb-4">More Than Just a Teddy Bear</motion.h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

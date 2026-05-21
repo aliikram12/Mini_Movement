@@ -98,7 +98,7 @@ const products = [
   },
   {
     name: 'Bear Accessory Bundle',
-    description: 'Complement your Mini Movements bear with our premium accessory bundle. Includes a personalized ribbon bow, a tiny birth certificate card, a miniature photo frame, and a satin drawstring pouch.',
+    description: 'Complement your Miki Memory bear with our premium accessory bundle. Includes a personalized ribbon bow, a tiny birth certificate card, a miniature photo frame, and a satin drawstring pouch.',
     shortDescription: 'Premium accessories: bow, card, frame & pouch',
     price: 24.99, comparePrice: 34.99,
     category: 'Accessories',

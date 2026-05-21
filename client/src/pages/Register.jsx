@@ -28,7 +28,7 @@ const Register = () => {
     try {
       const { data } = await registerUser({ name: form.name, email: form.email, password: form.password });
       setAuth(data.user, data.accessToken);
-      toast.success(`Welcome to Mini Movements, ${data.user.name}! 🧸💕`);
+      toast.success(`Welcome to Miki Memory, ${data.user.name}! 🧸💕`);
       navigate('/');
     } catch (e) { toast.error(e.response?.data?.message || 'Registration failed'); }
     finally { setLoading(false); }
@@ -42,7 +42,7 @@ const Register = () => {
           <div className="text-center mb-8">
             <img src="/logo.jpeg" alt="Logo" className="w-14 h-14 mx-auto mb-4 rounded-2xl object-contain shadow-soft" />
             <h1 className="font-playfair text-2xl font-bold text-brand-dark">Create Account</h1>
-            <p className="text-sm text-brand-light mt-1">Join the Mini Movements family</p>
+            <p className="text-sm text-brand-light mt-1">Join the Miki Memory family</p>
           </div>
           <form onSubmit={submit}>
             <InputField label="Full Name" name="name" value={form.name} onChange={handle} placeholder="Jane Doe" error={errors.name} required icon={<HiOutlineUser className="w-4 h-4" />} />

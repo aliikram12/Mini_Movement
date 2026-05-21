@@ -53,10 +53,10 @@ app.use('/api/custom-orders', require('./routes/customOrders'));
 app.use('/api/payments', require('./routes/payments'));
 app.use('/api/cart', require('./routes/cart'));
 
-app.get('/api', (_, res) => res.json({ status: 'OK', message: 'Mini Movements API Root 🧸✨' }));
-app.get('/api/health', (_, res) => res.json({ status: 'OK', message: 'Mini Movements API Health ✨' }));
+app.get('/api', (_, res) => res.json({ status: 'OK', message: 'Miki Memory API Root 🧸✨' }));
+app.get('/api/health', (_, res) => res.json({ status: 'OK', message: 'Miki Memory API Health ✨' }));
 
-app.get('/', (_, res) => res.json({ status: 'OK', message: 'Welcome to Mini Movements Backend API 🧸✨' }));
+app.get('/', (_, res) => res.json({ status: 'OK', message: 'Welcome to Miki Memory Backend API 🧸✨' }));
 
 // Error handler
 app.use((err, req, res, next) => {
@@ -72,7 +72,7 @@ const startServer = async () => {
     // 2. Start Listening
     const PORT = process.env.PORT || 5000;
     if (process.env.VERCEL !== '1') {
-      app.listen(PORT, () => console.log(`🚀 Mini Movements Server Ready on port ${PORT}`));
+      app.listen(PORT, () => console.log(`🚀 Miki Memory Server Ready on port ${PORT}`));
     }
   } catch (error) {
     console.error('❌ Failed to start server:', error.message);
