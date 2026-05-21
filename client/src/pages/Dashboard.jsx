@@ -110,9 +110,9 @@ const Dashboard = () => {
                       <div><p className="text-xs text-brand-muted font-mono">#{o._id.slice(-8).toUpperCase()}</p><p className="text-xs text-brand-muted">{new Date(o.createdAt).toLocaleDateString()}</p></div>
                       <span className={`badge ${statusColors[o.status]}`}>{o.status.charAt(0).toUpperCase()+o.status.slice(1)}</span>
                     </div>
-                    <div className="space-y-3">{o.items.map((it,i) => (<div key={i} className="flex items-center gap-3"><img src={it.image} alt={it.name} className="w-12 h-12 rounded-xl object-cover" /><div className="flex-1"><p className="text-sm font-medium text-brand-dark">{it.name}</p><p className="text-xs text-brand-muted">Qty: {it.quantity}</p></div><p className="text-sm font-semibold text-brand-dark">${(it.price*it.quantity).toFixed(2)}</p></div>))}</div>
+                    <div className="space-y-3">{o.items.map((it,i) => (<div key={i} className="flex items-center gap-3"><img src={it.image} alt={it.name} className="w-12 h-12 rounded-xl object-cover" /><div className="flex-1"><p className="text-sm font-medium text-brand-dark">{it.name}</p><p className="text-xs text-brand-muted">Qty: {it.quantity}</p></div><p className="text-sm font-semibold text-brand-dark">Rs {(it.price*it.quantity).toFixed(2)}</p></div>))}</div>
                     <hr className="border-cream-dark/20 my-4" />
-                    <div className="flex justify-between"><span className="text-sm text-brand-light">Total</span><span className="font-bold text-brand-dark">${o.totalAmount?.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span className="text-sm text-brand-light">Total</span><span className="font-bold text-brand-dark">Rs {o.totalAmount?.toFixed(2)}</span></div>
                   </div>
                 ))}
               </motion.div>
@@ -129,7 +129,7 @@ const Dashboard = () => {
                       <span className={`badge ${statusColors[o.status]}`}>{o.status.replace(/_/g,' ').replace(/\b\w/g,l=>l.toUpperCase())}</span>
                     </div>
                     {o.outfitImages?.length>0 && <div className="flex gap-2 mb-3">{o.outfitImages.map((img,i) => <img key={i} src={img} alt="" className="w-16 h-16 rounded-xl object-cover" />)}</div>}
-                    <div className="flex justify-between"><span className="text-sm text-brand-light">Total</span><span className="font-bold text-brand-dark">${o.price}</span></div>
+                    <div className="flex justify-between"><span className="text-sm text-brand-light">Total</span><span className="font-bold text-brand-dark">Rs {o.price}</span></div>
                   </div>
                 ))}
               </motion.div>

@@ -27,7 +27,7 @@ const Home = () => {
     { icon: <HiOutlineHeart className="w-7 h-7" />, title: 'Emotional Keepsake', desc: 'Transform fleeting moments into a memory you can hold forever' },
     { icon: <HiOutlineGift className="w-7 h-7" />, title: 'Perfect Gift', desc: 'The most thoughtful gift for new parents and baby showers' },
     { icon: <HiOutlineSparkles className="w-7 h-7" />, title: 'Fully Personalized', desc: 'Custom name embroidery, messages, and outfit selection' },
-    { icon: <HiOutlineTruck className="w-7 h-7" />, title: 'Free Shipping', desc: 'Complimentary shipping on all orders over $75' },
+    { icon: <HiOutlineTruck className="w-7 h-7" />, title: 'Free Shipping', desc: 'Complimentary shipping on all orders over Rs 7500' },
   ];
 
   const testimonials = [

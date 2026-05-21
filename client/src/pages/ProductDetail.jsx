@@ -80,8 +80,8 @@ const ProductDetail = () => {
             </div>
 
             <div className="flex items-baseline justify-center lg:justify-start gap-3 mb-6">
-              <span className="text-3xl font-bold text-brand-dark">${price}</span>
-              {product.comparePrice > 0 && <span className="text-lg text-brand-muted line-through">${product.comparePrice}</span>}
+              <span className="text-3xl font-bold text-brand-dark">Rs {price}</span>
+              {product.comparePrice > 0 && <span className="text-lg text-brand-muted line-through">Rs {product.comparePrice}</span>}
             </div>
 
             <p className="text-brand-light leading-relaxed mb-8 mx-auto lg:mx-0 max-w-xl">{product.description}</p>
@@ -110,7 +110,7 @@ const ProductDetail = () => {
                   {product.sizes.map(s => (
                     <button key={s.name} onClick={() => setSelectedSize(s)}
                       className={`px-5 py-2.5 rounded-2xl text-sm font-medium border transition-all ${selectedSize?.name === s.name ? 'bg-brand-dark text-white border-brand-dark shadow-soft' : 'bg-white text-brand-medium border-baby-pink/30 hover:border-brand-warm'}`}>
-                      {s.name} — ${s.price}
+                      {s.name} — Rs {s.price}
                     </button>
                   ))}
                 </div>

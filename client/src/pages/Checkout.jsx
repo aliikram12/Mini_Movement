@@ -16,7 +16,7 @@ const Checkout = () => {
   
   // Calculate totals robustly
   const subtotal = items.reduce((t, i) => t + (Number(i.price) || 0) * (Number(i.quantity) || 1), 0);
-  const shipping = subtotal > 75 || subtotal === 0 ? 0 : 9.99;
+  const shipping = subtotal > 7500 || subtotal === 0 ? 0 : 1000;
   const tax = Number((subtotal * 0.08).toFixed(2));
   const grandTotal = (subtotal + shipping + tax).toFixed(2);
 
@@ -90,15 +90,15 @@ const Checkout = () => {
               <div className="card p-6 sticky top-28 shadow-soft-xl">
                 <h3 className="font-poppins text-lg font-bold text-brand-dark mb-6">Order Summary</h3>
                 <div className="space-y-3 mb-6 max-h-[40vh] overflow-y-auto pr-2">{items.map(i => (
-                  <div key={`${i._id}-${i.color}-${i.size}`} className="flex gap-3"><img src={i.image} alt={i.name} className="w-14 h-14 rounded-xl object-cover shadow-sm" /><div className="flex-1 min-w-0"><p className="text-sm font-semibold text-brand-dark line-clamp-1">{i.name}</p><p className="text-xs text-brand-muted">Qty: {i.quantity}</p></div><p className="text-sm font-bold text-brand-dark">${(i.price * i.quantity).toFixed(2)}</p></div>
+                  <div key={`${i._id}-${i.color}-${i.size}`} className="flex gap-3"><img src={i.image} alt={i.name} className="w-14 h-14 rounded-xl object-cover shadow-sm" /><div className="flex-1 min-w-0"><p className="text-sm font-semibold text-brand-dark line-clamp-1">{i.name}</p><p className="text-xs text-brand-muted">Qty: {i.quantity}</p></div><p className="text-sm font-bold text-brand-dark">Rs {(i.price * i.quantity).toFixed(2)}</p></div>
                 ))}</div>
                 <hr className="border-cream-dark/30 mb-4" />
                 <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-sm"><span className="text-brand-light">Subtotal</span><span className="font-medium text-brand-dark">${subtotal.toFixed(2)}</span></div>
-                  <div className="flex justify-between text-sm"><span className="text-brand-light">Shipping</span><span className={shipping===0?'text-green-600 font-bold':'font-medium text-brand-dark'}>{shipping===0?'FREE':`$${shipping}`}</span></div>
-                  <div className="flex justify-between text-sm"><span className="text-brand-light">Tax</span><span className="font-medium text-brand-dark">${tax}</span></div>
+                  <div className="flex justify-between text-sm"><span className="text-brand-light">Subtotal</span><span className="font-medium text-brand-dark">Rs {subtotal.toFixed(2)}</span></div>
+                  <div className="flex justify-between text-sm"><span className="text-brand-light">Shipping</span><span className={shipping===0?'text-green-600 font-bold':'font-medium text-brand-dark'}>{shipping===0?'FREE':`Rs ${shipping}`}</span></div>
+                  <div className="flex justify-between text-sm"><span className="text-brand-light">Tax</span><span className="font-medium text-brand-dark">Rs {tax}</span></div>
                   <hr className="border-cream-dark/30" />
-                  <div className="flex justify-between pt-2"><span className="text-lg font-bold text-brand-dark">Total</span><span className="text-2xl font-black text-brand-dark">${grandTotal}</span></div>
+                  <div className="flex justify-between pt-2"><span className="text-lg font-bold text-brand-dark">Total</span><span className="text-2xl font-black text-brand-dark">Rs {grandTotal}</span></div>
                 </div>
                 <button type="submit" disabled={loading} className="btn-accent w-full flex items-center justify-center gap-2 py-4 text-base">
                   {loading ? <><motion.div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full" animate={{rotate:360}} transition={{duration:1,repeat:Infinity,ease:'linear'}} /> Preparing Secure Session...</> : <><HiOutlineLockClosed className="w-5 h-5" /> Proceed to Payment</>}

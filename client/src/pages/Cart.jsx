@@ -6,7 +6,7 @@ import useCartStore from '../store/cartStore';
 const Cart = () => {
   const { items, removeItem, updateQuantity, clearCart, getTotal } = useCartStore();
   const total = getTotal();
-  const shipping = total > 75 ? 0 : 9.99;
+  const shipping = total > 7500 ? 0 : 1000;
   const tax = Number((total * 0.08).toFixed(2));
   const grandTotal = (total + shipping + tax).toFixed(2);
 
@@ -53,7 +53,7 @@ const Cart = () => {
                           <button onClick={() => updateQuantity(item._id, item.quantity + 1, item.color, item.size)} className="p-2.5 hover:bg-baby-pink/20 transition-colors"><HiOutlinePlus className="w-4 h-4" /></button>
                         </div>
                         <div className="flex items-center gap-6">
-                          <p className="font-bold text-xl sm:text-lg text-brand-dark">${(item.price * item.quantity).toFixed(2)}</p>
+                          <p className="font-bold text-xl sm:text-lg text-brand-dark">Rs {(item.price * item.quantity).toFixed(2)}</p>
                           <button onClick={() => removeItem(item._id, item.color, item.size)} className="p-2.5 rounded-xl text-brand-muted hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-100"><HiOutlineTrash className="w-5 h-5" /></button>
                         </div>
                       </div>
@@ -69,13 +69,13 @@ const Cart = () => {
             <div className="card p-6 sticky top-28">
               <h3 className="font-poppins text-lg font-bold text-brand-dark mb-6">Order Summary</h3>
               <div className="space-y-3 mb-6">
-                <div className="flex justify-between text-sm"><span className="text-brand-light">Subtotal</span><span className="text-brand-dark">${total.toFixed(2)}</span></div>
-                <div className="flex justify-between text-sm"><span className="text-brand-light">Shipping</span><span className={shipping === 0 ? 'text-green-500 font-medium' : 'text-brand-dark'}>{shipping === 0 ? 'FREE' : `$${shipping}`}</span></div>
-                <div className="flex justify-between text-sm"><span className="text-brand-light">Tax</span><span className="text-brand-dark">${tax}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-brand-light">Subtotal</span><span className="text-brand-dark">Rs {total.toFixed(2)}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-brand-light">Shipping</span><span className={shipping === 0 ? 'text-green-500 font-medium' : 'text-brand-dark'}>{shipping === 0 ? 'FREE' : `Rs ${shipping}`}</span></div>
+                <div className="flex justify-between text-sm"><span className="text-brand-light">Tax</span><span className="text-brand-dark">Rs {tax}</span></div>
                 <hr className="border-cream-dark/20" />
-                <div className="flex justify-between pt-1"><span className="font-semibold text-brand-dark">Total</span><span className="text-xl font-bold text-brand-dark">${grandTotal}</span></div>
+                <div className="flex justify-between pt-1"><span className="font-semibold text-brand-dark">Total</span><span className="text-xl font-bold text-brand-dark">Rs {grandTotal}</span></div>
               </div>
-              {shipping > 0 && <p className="text-xs text-brand-warm bg-brand-warm/5 rounded-xl p-3 mb-4 text-center">🚚 Add ${(75 - total).toFixed(2)} more for free shipping!</p>}
+              {shipping > 0 && <p className="text-xs text-brand-warm bg-brand-warm/5 rounded-xl p-3 mb-4 text-center">🚚 Add Rs {(7500 - total).toFixed(2)} more for free shipping!</p>}
               <Link to="/checkout" className="btn-warm w-full flex items-center justify-center gap-2">Proceed to Checkout <HiArrowRight className="w-4 h-4" /></Link>
               <Link to="/products" className="block text-center text-sm text-brand-light mt-4 hover:text-brand-dark transition-colors">Continue Shopping</Link>
             </div>

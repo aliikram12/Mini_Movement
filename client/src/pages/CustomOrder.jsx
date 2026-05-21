@@ -105,7 +105,7 @@ const CustomOrder = () => {
                     className={`card p-4 text-left transition-all ${selectedBear?._id === b._id ? 'ring-2 ring-brand-warm shadow-soft-lg scale-[1.02]' : 'hover:shadow-soft-lg'}`}>
                     <img src={b.images?.[0]} alt={b.name} className="w-full aspect-square object-cover rounded-2xl mb-3" />
                     <h3 className="font-poppins font-semibold text-sm text-brand-dark line-clamp-1">{b.name}</h3>
-                    <p className="text-sm font-bold text-brand-warm mt-1">From ${b.price}</p>
+                    <p className="text-sm font-bold text-brand-warm mt-1">From Rs {b.price}</p>
                   </button>
                 ))}
               </div>
@@ -116,7 +116,7 @@ const CustomOrder = () => {
                       <div className="flex gap-3">{selectedBear.colors.map(c => (<button key={c.name} onClick={() => setSelectedColor(c.name)} style={{ backgroundColor: c.hex }} className={`w-9 h-9 rounded-xl border-2 ${selectedColor === c.name ? 'border-brand-dark scale-110' : 'border-gray-200'}`} />))}</div></div>)}
                   {selectedBear.sizes?.length > 0 && (
                     <div><p className="text-sm font-medium text-brand-medium mb-2">Size</p>
-                      <div className="flex flex-wrap gap-2">{selectedBear.sizes.map(s => (<button key={s.name} onClick={() => setSelectedSize(s)} className={`px-4 py-2 rounded-xl text-sm border ${selectedSize?.name === s.name ? 'bg-brand-dark text-white border-brand-dark' : 'bg-white text-brand-medium border-baby-pink/30'}`}>{s.name} — ${s.price}</button>))}</div></div>)}
+                      <div className="flex flex-wrap gap-2">{selectedBear.sizes.map(s => (<button key={s.name} onClick={() => setSelectedSize(s)} className={`px-4 py-2 rounded-xl text-sm border ${selectedSize?.name === s.name ? 'bg-brand-dark text-white border-brand-dark' : 'bg-white text-brand-medium border-baby-pink/30'}`}>{s.name} — Rs {s.price}</button>))}</div></div>)}
                 </div>
               )}
               <div className="flex justify-end mt-6">
@@ -194,14 +194,14 @@ const CustomOrder = () => {
                   <h3 className="font-poppins font-semibold text-brand-dark mb-4">Order Review</h3>
                   <div className="flex gap-4 mb-4 p-4 bg-cream-light rounded-2xl">
                     <img src={selectedBear?.images?.[0]} alt="" className="w-16 h-16 rounded-xl object-cover" />
-                    <div><p className="font-semibold text-brand-dark">{selectedBear?.name}</p><p className="text-xs text-brand-muted">{selectedColor} • {selectedSize?.name}</p><p className="text-sm font-bold text-brand-warm mt-1">${selectedSize?.price || selectedBear?.price}</p></div>
+                    <div><p className="font-semibold text-brand-dark">{selectedBear?.name}</p><p className="text-xs text-brand-muted">{selectedColor} • {selectedSize?.name}</p><p className="text-sm font-bold text-brand-warm mt-1">Rs {selectedSize?.price || selectedBear?.price}</p></div>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between"><span className="text-brand-light">Baby's Name</span><span className="text-brand-dark font-medium">{form.babyName}</span></div>
                     {form.customMessage && <div className="flex justify-between"><span className="text-brand-light">Message</span><span className="text-brand-dark text-xs max-w-[60%] text-right">{form.customMessage}</span></div>}
                     <div className="flex justify-between"><span className="text-brand-light">Outfit Photos</span><span className="text-brand-dark font-medium">{images.length} uploaded</span></div>
                     <hr className="border-cream-dark/20 my-2" />
-                    <div className="flex justify-between"><span className="font-semibold text-brand-dark">Total</span><span className="text-xl font-bold text-brand-dark">${selectedSize?.price || selectedBear?.price}</span></div>
+                    <div className="flex justify-between"><span className="font-semibold text-brand-dark">Total</span><span className="text-xl font-bold text-brand-dark">Rs {selectedSize?.price || selectedBear?.price}</span></div>
                   </div>
                   <button onClick={handleSubmit} disabled={loading || !form.fullName || !form.email || !form.street} className="btn-accent w-full mt-6 flex items-center justify-center gap-2 disabled:opacity-50">
                     {loading ? 'Creating...' : '🧸 Place Custom Order'}
